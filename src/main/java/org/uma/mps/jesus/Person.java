@@ -33,6 +33,41 @@ public class Person {
 
     public double[] averageAgePerGender(List<Person> persons)
     {
-        return null;
+        double[] numberOfPeoplePerGender = {0, 0};
+        double[] sumOfAgesPerGender = {0, 0};
+        double[] meansOfAgesPerGender = {0, 0};
+        int numberOfGendersAnalized = 2;
+
+        for (Person peopleOnTheList : persons)
+        {
+            if(peopleOnTheList.gender() == "Hombre")
+            {
+                numberOfPeoplePerGender[0]++;
+                sumOfAgesPerGender[0] += peopleOnTheList.age();
+            }
+            else if(peopleOnTheList.gender() == "Mujer")
+            {
+                numberOfPeoplePerGender[1]++;
+                sumOfAgesPerGender[1] += peopleOnTheList.age();
+            }
+        }
+
+        for(int i = 0; i < numberOfGendersAnalized; i++)
+        {
+            if(sumOfAgesPerGender[i] == 0)
+            {
+                meansOfAgesPerGender[i] = 0;
+            }
+            else if (sumOfAgesPerGender[i] > 0)
+            {
+                meansOfAgesPerGender[i] = sumOfAgesPerGender[i] / numberOfPeoplePerGender[i];
+            }
+            else
+            {
+                meansOfAgesPerGender[i] = -1;
+            }
+        }
+
+        return meansOfAgesPerGender;
     }
 }
