@@ -20,11 +20,20 @@ class PersonTest {
         person = null;
     }
     @Test
-    void NameOfPersonsIsSafeProperly(){
+    void NameOfPersonsIsSavedProperly(){
 
         String obtainedValue = person.name();
         String expectedValue = "Jesús";
 
         assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void AgeOfPersonIsSavedProperly()
+    {
+        int obtainedValue = person.age();
+        int expectedValue = 22;
+
+        assertEquals(obtainedValue, expectedValue);
     }
 }
