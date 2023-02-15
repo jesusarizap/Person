@@ -2,6 +2,7 @@ package org.uma.mps.jesus;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,13 +25,17 @@ Test cases:
 10. Checks if a negative value for the age of a woman is treated correctly.
 11. Checks if an empty lists get treated properly.
 12. Checks if a man and a woman added to the list, with its gender string having different types of lower/upper cases.
+(13). When trying to check if a person with a non integer age returns a RuntimeException, java doesn't compile because of incompatible types
+(14). When trying to give a number too big for age java doesn't compile because "integer number too large".
  */
 
 class PersonTest {
     Person person1, person2, person3, person4, person5, person6;
-    Person personNegativeAge;
+    Person manNegativeAge, womanNegativeAge;
 
     Person manWithDifferentUpperCases, womanWithDifferentUpperCases;
+
+    Person personNoninteger;
     List<Person> listOfPeople;
     @BeforeEach
     void setup()
@@ -42,10 +47,13 @@ class PersonTest {
         person5 = new Person("JesúsDos María", 53, "Woman");
         person6 = new Person("Ultima", 19, "Woman");
 
-        personNegativeAge = new Person("Jesús Negativo", -22, "Man");
+        manNegativeAge = new Person("Jesús Negativo", -22, "Man");
+        womanNegativeAge = new Person("Jesús Negativo", -22, "woman");
 
         manWithDifferentUpperCases = new Person("Jesús", 22, "mAn");
         womanWithDifferentUpperCases = new Person("Jesús", 22, "woMan");
+
+        personNoninteger = new Person ("Jesús", 22, "MAN");
 
         listOfPeople = new ArrayList<Person>();
     }
@@ -58,6 +66,7 @@ class PersonTest {
         listOfPeople = null;
     }
     @Test
+    @DisplayName("1. Name of person is saved properly")
     void nameOfPersonsIsSavedProperly(){
 
         String obtainedValue = person1.name();
@@ -67,6 +76,7 @@ class PersonTest {
     }
 
     @Test
+    @DisplayName("2. Age of person is saved properly")
     void ageOfPersonIsSavedProperly()
     {
         int obtainedValue = person1.age();
@@ -76,6 +86,7 @@ class PersonTest {
     }
 
     @Test
+    @DisplayName("3. Gender of a man is saved properly")
     void genderOfAManIsSavedProperly()
     {
         String obtainedValue = person1.gender();
@@ -85,6 +96,7 @@ class PersonTest {
     }
 
     @Test
+    @DisplayName("4. Gender of a woman is saved properly")
     void genderOfAWomanIsSavedProperly()
     {
         String obtainedValue = person2.gender();
@@ -94,6 +106,7 @@ class PersonTest {
     }
 
     @Test
+    @DisplayName("5. Mean of one man is its own age")
     void meanOfOneManIsItsOwnAge()
     {
         listOfPeople.add(person1);
@@ -104,6 +117,7 @@ class PersonTest {
     }
 
     @Test
+    @DisplayName("6. Mean of one woman is its own age")
     void meanOfOneWomanIsItsOwnAge()
     {
         listOfPeople.add(person2);
@@ -114,17 +128,19 @@ class PersonTest {
     }
 
     @Test
+    @DisplayName("7. Mean of one man and one woman are its ages")
     void meanOfOneManAndOneWomanAreItsAges()
     {
         listOfPeople.add(person1);
         listOfPeople.add(person2);
-        double[] obtainedValue = person2.averageAgePerGender(listOfPeople);
+        double[] obtainedValue = person1.averageAgePerGender(listOfPeople);
         double[] expectedValue = {22, 22};
 
         assertArrayEquals(expectedValue, obtainedValue);
     }
 
     @Test
+    @DisplayName("8. Correct mean with multiple men and multiple women")
     void correctMeanWithMultipleMenAndMultipleWomen()
     {
         listOfPeople.add(person1);
@@ -141,31 +157,45 @@ class PersonTest {
     }
 
     @Test
-    void checkNegativeAges()
+    @DisplayName("9. Check negative age of a man")
+    void checkManNegativeAge()
     {
-        listOfPeople.add(personNegativeAge);
-        double[] obtainedValue = personNegativeAge.averageAgePerGender(listOfPeople);
+        listOfPeople.add(manNegativeAge);
+        double[] obtainedValue = manNegativeAge.averageAgePerGender(listOfPeople);
         double[] expectedValue = {-1, 0};
 
         assertArrayEquals(expectedValue, obtainedValue);
     }
 
     @Test
+    @DisplayName("10. Check negative age of a woman")
+    void checkWomanNegativeAge()
+    {
+        listOfPeople.add(womanNegativeAge);
+        double[] obtainedValue = womanNegativeAge.averageAgePerGender(listOfPeople);
+        double[] expectedValue = {0, -1};
+
+        assertArrayEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    @DisplayName("11. Check if the list is empty")
     void checkIfTheListIsEmpty()
     {
-        double[] obtainedValue = personNegativeAge.averageAgePerGender(listOfPeople);
+        double[] obtainedValue = person1.averageAgePerGender(listOfPeople);
         double[] expectedValue = {0, 0};
 
         assertArrayEquals(expectedValue, obtainedValue);
     }
 
     @Test
+    @DisplayName("12. Check for a man and a woman added to the list with different upper cases")
     void checkForAManAndAWomanAddedToTheListWithDifferentUpperCases()
     {
         listOfPeople.add(manWithDifferentUpperCases);
         listOfPeople.add(womanWithDifferentUpperCases);
 
-        double[] obtainedValue = person1.averageAgePerGender(listOfPeople);
+        double[] obtainedValue = manWithDifferentUpperCases.averageAgePerGender(listOfPeople);
         double[] expectedValue = {22, 22};
 
         assertArrayEquals(expectedValue, obtainedValue);
