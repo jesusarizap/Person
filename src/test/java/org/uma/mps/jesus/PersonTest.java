@@ -10,54 +10,99 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
-    Person person;
+    Person person1;
+    Person person2;
+    Person personNegativeAge;
     List<Person> listOfPeople;
     @BeforeEach
     void setup()
     {
-        person = new Person("Jesús", 22, "Hombre");
+        person1 = new Person("Jesús", 22, "Man");
+        person2 = new Person("María Jesús", 22, "Woman");
+        personNegativeAge = new Person("Jesús Negativo", -22, "Man");
         listOfPeople = new ArrayList<Person>();
     }
 
     @AfterEach
     void shutdown()
     {
-        person = null;
+        person1 = null;
+        person2 = null;
         listOfPeople = null;
     }
     @Test
-    void NameOfPersonsIsSavedProperly(){
+    void nameOfPersonsIsSavedProperly(){
 
-        String obtainedValue = person.name();
+        String obtainedValue = person1.name();
         String expectedValue = "Jesús";
 
         assertEquals(expectedValue, obtainedValue);
     }
 
     @Test
-    void AgeOfPersonIsSavedProperly()
+    void ageOfPersonIsSavedProperly()
     {
-        int obtainedValue = person.age();
+        int obtainedValue = person1.age();
         int expectedValue = 22;
 
         assertEquals(expectedValue, obtainedValue);
     }
 
     @Test
-    void GenderOfPersonIsSavedProperly()
+    void genderOfAManIsSavedProperly()
     {
-        String obtainedValue = person.gender();
-        String expectedValue = "Hombre";
+        String obtainedValue = person1.gender();
+        String expectedValue = "Man";
 
         assertEquals(expectedValue, obtainedValue);
     }
 
     @Test
-    void MeanOfOneManIsItsOwnAge()
+    void genderOfAWomanIsSavedProperly()
     {
-        listOfPeople.add(person);
-        double[] obtainedValue = person.averageAgePerGender(listOfPeople);
+        String obtainedValue = person2.gender();
+        String expectedValue = "Woman";
+
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void meanOfOneManIsItsOwnAge()
+    {
+        listOfPeople.add(person1);
+        double[] obtainedValue = person1.averageAgePerGender(listOfPeople);
         double[] expectedValue = {22, 0};
+
+        assertArrayEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void meanOfOneWomanIsItsOwnAge()
+    {
+        listOfPeople.add(person2);
+        double[] obtainedValue = person2.averageAgePerGender(listOfPeople);
+        double[] expectedValue = {0, 22};
+
+        assertArrayEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void meanOfOneManAndOneWomanAreItsAges()
+    {
+        listOfPeople.add(person1);
+        listOfPeople.add(person2);
+        double[] obtainedValue = person2.averageAgePerGender(listOfPeople);
+        double[] expectedValue = {22, 22};
+
+        assertArrayEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void checkNegativeAges()
+    {
+        listOfPeople.add(personNegativeAge);
+        double[] obtainedValue = personNegativeAge.averageAgePerGender(listOfPeople);
+        double[] expectedValue = {-1, 0};
 
         assertArrayEquals(expectedValue, obtainedValue);
     }

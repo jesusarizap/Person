@@ -36,23 +36,24 @@ public class Person {
         double[] numberOfPeoplePerGender = {0, 0};
         double[] sumOfAgesPerGender = {0, 0};
         double[] meansOfAgesPerGender = {0, 0};
-        int numberOfGendersAnalized = 2;
+        int numberOfGendersAnalyzed = 2;
 
         for (Person peopleOnTheList : persons)
         {
-            if(peopleOnTheList.gender() == "Hombre")
+            if(peopleOnTheList.gender().equals("Man"))
             {
                 numberOfPeoplePerGender[0]++;
                 sumOfAgesPerGender[0] += peopleOnTheList.age();
             }
-            else if(peopleOnTheList.gender() == "Mujer")
+
+            if(peopleOnTheList.gender().equals("Woman"))
             {
                 numberOfPeoplePerGender[1]++;
                 sumOfAgesPerGender[1] += peopleOnTheList.age();
             }
         }
 
-        for(int i = 0; i < numberOfGendersAnalized; i++)
+        for(int i = 0; i < numberOfGendersAnalyzed; i++)
         {
             if(sumOfAgesPerGender[i] == 0)
             {
