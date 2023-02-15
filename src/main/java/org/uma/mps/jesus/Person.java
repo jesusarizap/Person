@@ -40,13 +40,13 @@ public class Person {
 
         for (Person peopleOnTheList : persons)
         {
-            if(peopleOnTheList.gender().equals("Man"))
+            if(peopleOnTheList.gender().toLowerCase().equals("man"))
             {
                 numberOfPeoplePerGender[0]++;
                 sumOfAgesPerGender[0] += peopleOnTheList.age();
             }
 
-            if(peopleOnTheList.gender().equals("Woman"))
+            if(peopleOnTheList.gender().toLowerCase().equals("woman"))
             {
                 numberOfPeoplePerGender[1]++;
                 sumOfAgesPerGender[1] += peopleOnTheList.age();
@@ -59,7 +59,7 @@ public class Person {
             {
                 meansOfAgesPerGender[i] = 0;
             }
-            else if (sumOfAgesPerGender[i] > 0)
+            else if (sumOfAgesPerGender[i] >= 0)
             {
                 meansOfAgesPerGender[i] = sumOfAgesPerGender[i] / numberOfPeoplePerGender[i];
             }

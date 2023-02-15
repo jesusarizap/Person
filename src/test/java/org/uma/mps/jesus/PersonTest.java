@@ -22,11 +22,15 @@ Test cases:
 8. Checks if a list with multiple men and multiple women returns the means for both genders properly.
 9. Checks if a negative value for the age of man is treated correctly.
 10. Checks if a negative value for the age of a woman is treated correctly.
+11. Checks if an empty lists get treated properly.
+12. Checks if a man and a woman added to the list, with its gender string having different types of lower/upper cases.
  */
 
 class PersonTest {
     Person person1, person2, person3, person4, person5, person6;
     Person personNegativeAge;
+
+    Person manWithDifferentUpperCases, womanWithDifferentUpperCases;
     List<Person> listOfPeople;
     @BeforeEach
     void setup()
@@ -37,7 +41,12 @@ class PersonTest {
         person4 = new Person("María JesúsDos", 44, "Woman");
         person5 = new Person("JesúsDos María", 53, "Woman");
         person6 = new Person("Ultima", 19, "Woman");
+
         personNegativeAge = new Person("Jesús Negativo", -22, "Man");
+
+        manWithDifferentUpperCases = new Person("Jesús", 22, "mAn");
+        womanWithDifferentUpperCases = new Person("Jesús", 22, "woMan");
+
         listOfPeople = new ArrayList<Person>();
     }
 
@@ -137,6 +146,27 @@ class PersonTest {
         listOfPeople.add(personNegativeAge);
         double[] obtainedValue = personNegativeAge.averageAgePerGender(listOfPeople);
         double[] expectedValue = {-1, 0};
+
+        assertArrayEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void checkIfTheListIsEmpty()
+    {
+        double[] obtainedValue = personNegativeAge.averageAgePerGender(listOfPeople);
+        double[] expectedValue = {0, 0};
+
+        assertArrayEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    void checkForAManAndAWomanAddedToTheListWithDifferentUpperCases()
+    {
+        listOfPeople.add(manWithDifferentUpperCases);
+        listOfPeople.add(womanWithDifferentUpperCases);
+
+        double[] obtainedValue = person1.averageAgePerGender(listOfPeople);
+        double[] expectedValue = {22, 22};
 
         assertArrayEquals(expectedValue, obtainedValue);
     }
