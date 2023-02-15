@@ -36,4 +36,13 @@ class PersonTest {
 
         assertEquals(obtainedValue, expectedValue);
     }
+
+    @Test
+    void GenderOfPersonIsSavedProperly()
+    {
+        String obtainedValue = person.gender();
+        String expectedValue = "Hombre";
+
+        assertEquals(obtainedValue, expectedValue);
+    }
 }
